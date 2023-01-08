@@ -4,11 +4,16 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "user")
 public class User implements Serializable {
 	@Serial
 	private static final long serialVersionUID = 1L;
 
-	private Integer Id;
+	@Id
+	private String id;
 	private String name;
 	private String email;
 	
@@ -16,19 +21,19 @@ public class User implements Serializable {
 		super();
 	}
 
-	public User(Integer id, String name, String email) {
+	public User(String id, String name, String email) {
 		super();
-		Id = id;
+		this.id = id;
 		this.name = name;
 		this.email = email;
 	}
 
-	public Integer getId() {
-		return Id;
+	public String getId() {
+		return id;
 	}
 
-	public void setId(Integer id) {
-		Id = id;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -49,7 +54,7 @@ public class User implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(Id);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -61,12 +66,12 @@ public class User implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		return Objects.equals(Id, other.Id);
+		return Objects.equals(id, other.id);
 	}
 
 	@Override
 	public String toString() {
-		return "User [Id=" + Id + ", name=" + name + ", email=" + email + "]";
+		return "User [id=" + id + ", name=" + name + ", email=" + email + "]";
 	}
 
 }
