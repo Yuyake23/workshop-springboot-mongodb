@@ -2,9 +2,12 @@ package com.brunosamuel.workshopmongo.entities;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "user")
@@ -16,7 +19,13 @@ public class User implements Serializable {
 	private String id;
 	private String name;
 	private String email;
-	
+
+	// @DBRef faz com que os documentos da colecao tenham apenas uma referencia para
+	// post. Nao utilizar a anotacao faz com que o documento tenham copias dos posts
+	// o atributo lazy faz com que os posts nao sejam carregados juntos com o user
+	@DBRef(lazy = true)
+	private List<Post> posts = new ArrayList<>();
+
 	public User() {
 		super();
 	}
@@ -52,6 +61,10 @@ public class User implements Serializable {
 		this.email = email;
 	}
 
+	public List<Post> getPosts() {
+		return posts;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -71,7 +84,7 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + "]";
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", posts=" + posts + "]";
 	}
 
 }
